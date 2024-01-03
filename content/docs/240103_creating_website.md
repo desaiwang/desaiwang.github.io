@@ -1,10 +1,10 @@
 ---
-title: 'Creating a blog with hugo'
+title: 'Creating a blog with Hugo'
 date: 2024-01-03T13:17:00-05:00
-draft: true
+draft: false
 ---
 
-## Choosing a framework
+### Choosing a framework
 I worked with basic html and css for a data-visualization course, but most of the projects were about displaying json using the d3 library. That said, I had no experience of creating a nice-ish looking website with multiple pages when I set off to create my digital sketchbook.
 
 Solution criteria:
@@ -15,10 +15,37 @@ Solution criteria:
 I've heard of React, but from a quick search it seems like a development framework, which means I would be coding a blog from scratch. What I want instead is an existing template that I can modify, so I turned to static site generators. They parse plain text (technically [markdown](https://www.markdownguide.org/getting-started/), which has more formatting functionality) into webpages, and have fast performances. But which one should you use: Jekyll, Hugo, Zola, Gatsby...? Each one is based in a different programming language, but I think they are all very similar except for different available themes. I first went with Zola because it automatically parses javascript in markdown and makes it a bit easier to include p5.js code compared to the other frameworks, which require the code to be saved in a separate file and then referenced in the markdown. However, halfway into writing my first post I realized that the blog theme I chose didn't have a search bar, and couldn't find another Zola theme that I liked. I ultimately decided to use the [PaperMod](https://adityatelange.github.io/hugo-PaperMod/) theme inside [Hugo](https://gohugo.io/).
 
 
-## Creating a blog with Hugo
-I followed the [PaperMod](https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-installation/) and [Hugo](https://gohugo.io/getting-started/quick-start/) documentation. There are some differences between the two instructions that can be confusing, especially if you're unfamiliar with hugo. Here are the steps I used to create my blog. I have a windows system, so if you use macOS or Linux you should refer to the official documentation instead.
+### Creating a blog with Hugo + PaperMod
+I followed the [PaperMod](https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-installation/) and [Hugo](https://gohugo.io/getting-started/quick-start/) documentation. There are some differences between the two instructions that can be confusing, especially if you're unfamiliar with hugo. Here are the steps I used to create my blog. I have a windows system, so if you use macOS or Linux you should refer to the official documentation. If you already have some of the packages installed, no need to re-install them as long as the versions are up-to-date.
 
 1. Install [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4). This is different from Windows PowerShell, and recommended by hugo.
+2. Install [Hugo](https://gohugo.io/installation/)
+3. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+Now open PowerShell, navigate to the parent directory where you want to create your website folder, and execute the following commands. Replace `<YourSiteName>` with your site name. I used the yaml configuration.
+
+```powershell
+hugo new site <YourSiteName> --format yaml
+git init
+git submodule add --depth=1 https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
+git submodule update --init --recursive
+```
+
+Now inside hugo.yaml, add `theme: PaperMod` at the end. You can also change title to reflect your website.
+
+Create a new page with command `hugo new <filename>`. For example:
+```powershell
+hugo new docs/test.md
+```
+The draft status is set to true, which means it will not be published. You should change it to false. Feel free to add some text, and change the title.
+
+To build the website locally, run `hugo server` inside PowerShell. If you run `hugo server -D`, all drafts will also become visible.
+
+### Publishing to GitHub
+
+
+
+
 
 
 
