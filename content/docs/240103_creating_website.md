@@ -1,11 +1,29 @@
 ---
-title: 'Test'
-date: 2024-01-02T18:33:08-05:00
-draft: false
+title: 'Creating a blog with hugo'
+date: 2024-01-03T13:17:00-05:00
+draft: true
 ---
 
-## Introduction
+## Choosing a framework
+I worked with basic html and css for a data-visualization course, but most of the projects were about displaying json using the d3 library. That said, I had no experience of creating a nice-ish looking website with multiple pages when I set off to create my digital sketchbook.
 
+Solution criteria:
+1. able to include p5.js (most important, as this is the reason I abandoned [my wix blog](desaiwang/blog))
+2. can be hosted on github.io (free domain)
+3. easy to create
+
+I've heard of React, but from a quick search it seems like a development framework, which means I would be coding a blog from scratch. What I want instead is an existing template that I can modify, so I turned to static site generators. They parse plain text (technically [markdown](https://www.markdownguide.org/getting-started/), which has more formatting functionality) into webpages, and have fast performances. But which one should you use: Jekyll, Hugo, Zola, Gatsby...? Each one is based in a different programming language, but I think they are all very similar except for different available themes. I first went with Zola because it automatically parses javascript in markdown and makes it a bit easier to include p5.js code compared to the other frameworks, which require the code to be saved in a separate file and then referenced in the markdown. However, halfway into writing my first post I realized that the blog theme I chose didn't have a search bar, and couldn't find another Zola theme that I liked. I ultimately decided to use the [PaperMod](https://adityatelange.github.io/hugo-PaperMod/) theme inside [Hugo](https://gohugo.io/).
+
+
+## Creating a blog with Hugo
+I followed the [PaperMod](https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-installation/) and [Hugo]() documentation and 
+
+The most common one is Jekyll, but I didn't find any themes I like.
+
+and after consulting some cs friends I settled on using a prexiI asked my
+
+
+I have no web-design experience, and was absolutely lost when I set off to create a website for myself.
 This is **bold** text, and this is *emphasized* text.
 
 Visit the [Hugo](https://gohugo.io) website!
