@@ -1,7 +1,7 @@
 ---
 title: 'Test'
 date: 2024-01-02T18:33:08-05:00
-draft: false
+draft: true
 ---
 
 ## Introduction
@@ -13,4 +13,3 @@ Visit the [Hugo](https://gohugo.io) website!
 hi this is just me testing hot reload
 
 {{< sketch1 >}}
-  </script>
