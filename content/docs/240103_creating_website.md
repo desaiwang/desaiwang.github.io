@@ -16,7 +16,11 @@ I've heard of React, but from a quick search it seems like a development framewo
 
 
 ## Creating a blog with Hugo
-I followed the [PaperMod](https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-installation/) and [Hugo]() documentation and 
+I followed the [PaperMod](https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-installation/) and [Hugo](https://gohugo.io/getting-started/quick-start/) documentation. There are some differences between the two instructions that can be confusing, especially if you're unfamiliar with hugo. Here are the steps I used to create my blog. I have a windows system, so if you use macOS or Linux you should refer to the official documentation instead.
+
+1. Install [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4). This is different from Windows PowerShell, and recommended by hugo.
+
+
 
 The most common one is Jekyll, but I didn't find any themes I like.
 
