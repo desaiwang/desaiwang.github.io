@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docs on desai&#39;s digital garden</title>
+    <link>https://desaiwang.github.io/docs/</link>
+    <description>Recent content in Docs on desai&#39;s digital garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 02 Jan 2024 18:33:08 -0500</lastBuildDate>
+    <atom:link href="https://desaiwang.github.io/docs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Test</title>
+      <link>https://desaiwang.github.io/docs/test/</link>
+      <pubDate>Tue, 02 Jan 2024 18:33:08 -0500</pubDate>
+      <guid>https://desaiwang.github.io/docs/test/</guid>
+      <description>Introduction This is bold text, and this is emphasized text.
+Visit the Hugo website!
+hi this is just me testing hot reload</description>
+    </item>
+  </channel>
+</rss>

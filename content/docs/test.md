@@ -9,3 +9,8 @@ draft: false
 This is **bold** text, and this is *emphasized* text.
 
 Visit the [Hugo](https://gohugo.io) website!
+
+hi this is just me testing hot reload
+
+{{< sketch1 >}}
+  </script>
