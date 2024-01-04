@@ -71,100 +71,9 @@ theme: PaperMod
 ```
 
 The default static website generator is jekyll, so we also need to add a .nojekll file at the root of this repository. You do not need to add any content to this file. 
+Now follow the section on [building and deploying the site](#github-actions-for-building-and-deploying-site).
 
-Lastly, we use github actions to build and deploy this website. Add a .github/workflows/deploy.yaml file (that is, an empty file named deploy.yaml at .github/workflows). Paste the content below into the file: 
-```yaml
-# Sample workflow for building and deploying a Hugo site to GitHub Pages
-name: Deploy Hugo site to Pages
-
-on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches:
-      - main
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
-# Default to bash
-defaults:
-  run:
-    shell: bash
-
-jobs:
-  # Build job
-  build:
-    runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.121.0
-    steps:
-      - name: Install Hugo CLI
-        run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb          
-      - name: Install Dart Sass
-        run: sudo snap install dart-sass
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v4
-      - name: Install Node.js dependencies
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
-      - name: Build with Hugo
-        env:
-          # For maximum backward compatibility with Hugo modules
-          HUGO_ENVIRONMENT: production
-          HUGO_ENV: production
-        run: |
-          hugo \
-            --gc \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"          
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: ./public
-
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v3
-```
-
-Now commit the changes and push to github:
-```powershell
-git commit -a -m "add workflow"
-git push origin main
-```
-
-You should see the actions showing up next to your commit message, first as a yellow dot. If they turn into green checks, that means everything was built and deployed successfully. You should be able to see your webpage at *username*.github.io.
-
-If not, read the error messages and see if you can decipher what went wrong. Asking the internet for help is a good idea, too. This took me a few tries (had an illegal apostrophe in my .md file name, found an extra / at the end of my baseURL, didn't have double quotes around my title for the yaml front matter...), so don't be discouraged!
-
-#### *username*.github.io/project_repo
+### *username*.github.io/project_repo
 If you already have a personal page, and want to host a blog on sub-page, this approach is for you.
 
 First create a new repository on Github and copy the path information.
@@ -194,6 +103,7 @@ theme: PaperMod
 On the repository github page, go to Settings>Actions>General>Workflow permissions and set it to *Read and write permissions*.
 Under Settings>Pages>Source, change it from *Deploy from a branch* to *GitHub Action*.
 
+### GitHub Actions for building and deploying site
 Lastly, we use github actions to build and deploy this website. Add a .github/workflows/deploy.yaml file (that is, an empty file named deploy.yaml at .github/workflows). Paste the content below into the file: 
 ```yaml
 name: Deploy Hugo site to Pages
@@ -283,7 +193,7 @@ git push origin main
 
 You should see the actions showing up next to your commit message, first as a yellow dot. If they turn into green checks, that means everything was built and deployed successfully. You should be able to see your webpage at *username*.github.io/*project_repo*.
 
-If not, read the error messages and see if you can decipher what went wrong. Asking the internet for help is a good idea, too. This took me a few tries (confused about whether or not I needed a gh-pages branch, if the / is necessary the end of my baseURL...), so don't be discouraged!
+If not, read the error messages and see if you can decipher what went wrong. Asking the internet for help is a good idea, too. This took me a few tries (had an illegal apostrophe in my .md file name, found an extra / at the end of my baseURL, didn't have double quotes around my title for the yaml front matter, confused about whether or not I needed a gh-pages branch...), so don't be discouraged!
 
 ### Closing Thoughts
 This took much longer than I thought it would, since I started with hosting my sketchbook at desaiwang.github.io/doodles and then transferred everything to desaiwang.github.io. Broke many things in the process and had to re-learn some git commands for bringing back past commits. Also, github actions are confusing, and the config files are a bit hard to work with. These I attribute to my general lack of experience working with web design, but I am beginning to sense some patterns in how things work.
