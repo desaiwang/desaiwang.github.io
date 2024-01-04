@@ -2,6 +2,7 @@
 title: 'Creating a blog with Hugo'
 date: 2024-01-03T13:17:00-05:00
 draft: false
+tags: ["hugo", "tutorial-web"]
 ---
 
 ### Choosing a framework

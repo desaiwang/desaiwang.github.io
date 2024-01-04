@@ -2,3 +2,56 @@ baseURL: "https://desaiwang.github.io"
 languageCode: en-us
 title: desai's doodles
 theme: PaperMod
+
+enableEmoji: true
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
+    
+params:
+  author: Desai Wang
+  homeInfoParams:
+    Title: "art + computation"
+    Content: >
+      Welcome to my digital sketchbook 🎉
+      
+
+  socialIcons:
+    - name: Github
+      url: "https://github.com/desaiwang"
+    - name: LinkedIn
+      url: "https://www.linkedin.com/in/desaiwang/"
+    - name: Portfolio
+      url: "https://desaiwang.com"
+
+  # ShowReadingTime: true
+  ShowShareButtons: true
+
+menu:
+  main:
+    - name: Archives
+      url: archives
+      weight: 5
+    - name: Search
+      url: search/
+      weight: 10
+    - name: Tags
+      url: tags/
+      weight: 10
+    - name: WiKi
+      url: https://github.com/adityatelange/hugo-PaperMod/wiki/
+  
+  
+
+
+  #content at top of each page
+  # ShowToc: true
+
+  # params:
+  # ShowBreadCrumbs: true
+
+#could be cool to have later, set up with disqus
+  # params:
+  # comments: true
