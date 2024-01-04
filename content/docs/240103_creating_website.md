@@ -191,12 +191,12 @@ git commit -a -m "add workflow"
 git push origin main
 ```
 
-You should see the actions showing up next to your commit message, first as a yellow dot. If they turn into green checks, that means everything was built and deployed successfully. You should be able to see your webpage at *username*.github.io/*project_repo*.
+You should see the actions showing up next to your commit message, first as a yellow dot. If they turn into green checks, that means everything was built and deployed successfully. You should be able to see your webpage at *username*.github.io or *username*.github.io/*project_repo*.
 
 If not, read the error messages and see if you can decipher what went wrong. Asking the internet for help is a good idea, too. This took me a few tries (had an illegal apostrophe in my .md file name, found an extra / at the end of my baseURL, didn't have double quotes around my title for the yaml front matter, confused about whether or not I needed a gh-pages branch...), so don't be discouraged!
 
 ### Closing Thoughts
-This took much longer than I thought it would, since I started with hosting my sketchbook at desaiwang.github.io/doodles and then transferred everything to desaiwang.github.io. Broke many things in the process and had to re-learn some git commands for bringing back past commits. Also, github actions are confusing, and the config files are a bit hard to work with. These I attribute to my general lack of experience working with web design, but I am beginning to sense some patterns in how things work.
+This took much longer than expected, since I started with hosting my sketchbook at desaiwang.github.io/doodles and then transferred everything to desaiwang.github.io. Broke many things in the process and had to re-learn some git commands for bringing back past commits. Also, github actions are confusing, and the config files are a bit hard to work with. These I attribute to my general lack of experience working with web design, but I am beginning to sense some patterns in how things work.
 
 In the next post, I add features to this site, such as the search bar that started this whole rabbit chase, along with a landing intro and tags.
 
