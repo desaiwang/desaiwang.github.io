@@ -8,7 +8,7 @@ draft: false
 I worked with basic html and css for a data-visualization course, but most of the projects were about displaying json using the d3 library. That said, I had no experience of creating a nice-ish looking website with multiple pages when I set off to create my digital sketchbook.
 
 Solution criteria:
-1. able to include p5.js (most important, as this is the reason I abandoned [my wix blog](desaiwang/blog))
+1. able to include p5.js (most important, as this is the reason I abandoned [my wix blog](desaiwang.com/blog))
 2. can be hosted on github.io (free domain)
 3. easy to create
 
@@ -26,12 +26,13 @@ Now open PowerShell, navigate to the parent directory where you want to create y
 
 ```powershell
 hugo new site <YourSiteName> --format yaml
+cd <YourSiteName>
 git init
 git submodule add --depth=1 https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
 git submodule update --init --recursive
 ```
 
-Now inside hugo.yaml, add `theme: PaperMod` at the end. You can also change title to reflect your website.
+Inside hugo.yaml, add `theme: PaperMod` at the end. You can also change title to reflect your website.
 
 Create a new page with command `hugo new <filename>`. For example:
 ```powershell
@@ -39,40 +40,253 @@ hugo new docs/test.md
 ```
 The draft status is set to true, which means it will not be published. You should change it to false. Feel free to add some text, and change the title.
 
-To build the website locally, run `hugo server` inside PowerShell. If you run `hugo server -D`, all drafts will also become visible.
+To build the website locally, run `hugo server` inside PowerShell. Run `hugo server -D` if you want to see drafts as well. Only move onto the next steps if your local host displays as expected.
 
-### Publishing to GitHub
+### Publishing to GitHub 
+I will discuss two ways of publishing to github, either directly to username.github.io, or to username.github.io/repository_name. If you want to host yours on a custom domain, follow the second approach, and then to refer to [this tutorial](https://theplaybook.dev/docs/deploy-hugo-to-github-pages/#link-custom-domain-to-github-pages). 
 
+#### *username*.github.io
+I don't have my personal website hosted on my main page, so I decided to host this sketchbook directly at desaiwang.github.io. 
 
+To do this, first create a new public repository on Github named *username*.github.io, where *username* is your github username.
 
+Then inside PowerShell, add a readme file, commit and make a branch named main:
+```powershell
+echo "# README" >> README.md
+git add README.md
+git commit -m "first commit"
+git branch -M main
+```
+Then add the github repo you created as the remote origin. You can find the path of the github repo by clicking the green code button to the right on your github repo page and copying the HTTPS.:
+```powershell
+git remote add origin <path_to_your_git_repo>
+git push -u origin main
+```
+Inside hugo.yaml, change the baseURL to that of your github pages, and also update the title. For example mine file contains:
+```yaml
+baseURL: "https://desaiwang.github.io"
+languageCode: en-us
+title: desai's doodles
+theme: PaperMod
+```
 
+The default static website generator is jekyll, so we also need to add a .nojekll file at the root of this repository. You do not need to add any content to this file. 
 
+Lastly, we use github actions to build and deploy this website. Add a .github/workflows/deploy.yaml file (that is, an empty file named deploy.yaml at .github/workflows). Paste the content below into the file: 
+```yaml
+# Sample workflow for building and deploying a Hugo site to GitHub Pages
+name: Deploy Hugo site to Pages
 
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches:
+      - main
 
-The most common one is Jekyll, but I didn't find any themes I like.
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
-and after consulting some cs friends I settled on using a prexiI asked my
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
-I have no web-design experience, and was absolutely lost when I set off to create a website for myself.
-This is **bold** text, and this is *emphasized* text.
+# Default to bash
+defaults:
+  run:
+    shell: bash
 
-Visit the [Hugo](https://gohugo.io) website!
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: 0.121.0
+    steps:
+      - name: Install Hugo CLI
+        run: |
+          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb          
+      - name: Install Dart Sass
+        run: sudo snap install dart-sass
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
+      - name: Install Node.js dependencies
+        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+      - name: Build with Hugo
+        env:
+          # For maximum backward compatibility with Hugo modules
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: |
+          hugo \
+            --gc \
+            --minify \
+            --baseURL "${{ steps.pages.outputs.base_url }}/"          
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./public
 
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3
+```
 
-{{< sketch1 >}}
+Now commit the changes and push to github:
+```powershell
+git commit -a -m "add workflow"
+git push origin main
+```
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu feugiat sapien. Aenean ligula nunc, laoreet id sem in, interdum bibendum felis. Donec vel dui neque. Praesent ac sem ut justo volutpat rutrum a imperdiet tellus. Nam lobortis massa non hendrerit hendrerit. Vivamus porttitor dignissim turpis, eget aliquam urna tincidunt non. Aliquam et fringilla turpis. Nullam eros est, eleifend in ornare sed, hendrerit eget est. Aliquam tellus felis, suscipit vitae ex vel, fringilla tempus massa. Nulla facilisi. Pellentesque lobortis consequat lectus. Maecenas ac libero elit.
-<!-- more -->
-Ut luctus dolor ut tortor hendrerit, sed _hendrerit augue scelerisque_. Suspendisse quis sodales dui, at tempus ante. Nulla at tempor metus. Aliquam vitae rutrum diam. __Curabitur iaculis massa dui__, quis varius nulla finibus a. Praesent eu blandit justo. Suspendisse pharetra, arcu in rhoncus rutrum, magna magna viverra erat, eget vestibulum enim tellus id dui. Nunc vel dui et arcu posuere maximus. Mauris quam quam, bibendum sed libero nec, tempus hendrerit arcu. Suspendisse sed gravida orci. Fusce tempor arcu ac est ___pretium porttitor___. Aenean consequat risus venenatis sem aliquam, at sollicitudin nulla semper. Aenean bibendum cursus hendrerit. Nulla congue urna nec finibus bibendum. Donec porta tincidunt ligula non ultricies.
+You should see the actions showing up next to your commit message, first as a yellow dot. If they turn into green checks, that means everything was built and deployed successfully. You should be able to see your webpage at *username*.github.io.
 
-- Itemize 1
-- Itemize 2
-- Itemize 3
+If not, read the error messages and see if you can decipher what went wrong. Asking the internet for help is a good idea, too. This took me a few tries (had an illegal apostrophe in my .md file name, found an extra / at the end of my baseURL, didn't have double quotes around my title for the yaml front matter...), so don't be discouraged!
 
-1. Enumeration 1
-2. Enumeration 2
-3. Enumeration 3
+#### *username*.github.io/project_repo
+If you already have a personal page, and want to host a blog on sub-page, this approach is for you.
 
-Sed vulputate tristique elit, eget pharetra elit sodales sed. Proin dignissim ipsum lorem, at porta eros malesuada sed. Proin tristique eros eu quam ornare, suscipit luctus mauris lobortis. Phasellus ut placerat enim. Donec egestas faucibus maximus. Nam quis efficitur eros. Cras tincidunt, lacus ac pretium porta, dui dolor varius elit, eget laoreet justo justo vitae metus. Morbi eget nisi ut ex scelerisque lobortis ut in lorem. Vestibulum et lorem quis ipsum feugiat varius. Mauris nec nulla viverra nisi porttitor efficitur. Morbi vel purus eleifend, finibus erat non, placerat ipsum. Mauris et augue vel nisi volutpat aliquam. Curabitur malesuada tortor est, at condimentum neque eleifend in.
+First create a new repository on Github and copy the path information.
+
+Inside PowerShell, add a readme file, commit and make a branch named main:
+```powershell
+echo "# README" >> README.md
+git add README.md
+git commit -m "first commit"
+git branch -M main
+
+```
+Then add the github repo you created as the remote origin. You can find the path of the github repo by clicking the green code button to the right on your github repo page and copying the HTTPS.:
+```
+git remote add origin <path_to_your_git_repo>
+git push -u origin main
+```
+
+Inside hugo.yaml, change the baseURL to *username*.github.io/project_repo, and also update the title. Note that the project_repo must match the name of the repository you just created. For example, if my repository is named doodles, my yaml file should be:
+```yaml
+baseURL: "https://desaiwang.github.io/doodles"
+languageCode: en-us
+title: desai's doodles
+theme: PaperMod
+```
+
+On the repository github page, go to Settings>Actions>General>Workflow permissions and set it to *Read and write permissions*.
+Under Settings>Pages>Source, change it from *Deploy from a branch* to *GitHub Action*.
+
+Lastly, we use github actions to build and deploy this website. Add a .github/workflows/deploy.yaml file (that is, an empty file named deploy.yaml at .github/workflows). Paste the content below into the file: 
+```yaml
+name: Deploy Hugo site to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches:
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: 0.121.0
+    steps:
+      - name: Install Hugo CLI
+        run: |
+          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb          
+      - name: Install Dart Sass
+        run: sudo snap install dart-sass
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
+      - name: Install Node.js dependencies
+        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+      - name: Build with Hugo
+        env:
+          # For maximum backward compatibility with Hugo modules
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: |
+          hugo \
+            --gc \
+            --minify \
+            --baseURL "${{ steps.pages.outputs.base_url }}/"          
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./public
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3
+```
+
+Now commit the changes and push to github:
+```powershell
+git commit -a -m "add workflow"
+git push origin main
+```
+
+You should see the actions showing up next to your commit message, first as a yellow dot. If they turn into green checks, that means everything was built and deployed successfully. You should be able to see your webpage at *username*.github.io/*project_repo*.
+
+If not, read the error messages and see if you can decipher what went wrong. Asking the internet for help is a good idea, too. This took me a few tries (confused about whether or not I needed a gh-pages branch, if the / is necessary the end of my baseURL...), so don't be discouraged!
+
+### Closing Thoughts
+This took much longer than I thought it would, since I started with hosting my sketchbook at desaiwang.github.io/doodles and then transferred everything to desaiwang.github.io. Broke many things in the process and had to re-learn some git commands for bringing back past commits. Also, github actions are confusing, and the config files are a bit hard to work with. These I attribute to my general lack of experience working with web design, but I am beginning to sense some patterns in how things work.
+
+In the next post, I add features to this site, such as the search bar that started this whole rabbit chase, along with a landing intro and tags.
 
