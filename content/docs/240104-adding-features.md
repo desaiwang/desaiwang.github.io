@@ -1,5 +1,5 @@
 ---
-title: "Adding Features in Hugo Blog"
+title: "Adding Features in Hugo + PaperMod Blog"
 date: 2024-01-04T10:01:47-05:00
 draft: false
 tags: ["hugo", "webdevelopment", "tutorial"]

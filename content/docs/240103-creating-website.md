@@ -1,5 +1,5 @@
 ---
-title: 'Creating a Blog with Hugo'
+title: 'Creating a Blog with Hugo + PaperMod'
 date: 2024-01-03T13:17:00-05:00
 draft: false
 tags: ["hugo", "webdevelopment", "tutorial"]
