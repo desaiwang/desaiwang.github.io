@@ -45,7 +45,7 @@ To build the website locally, run `hugo server` inside PowerShell. Run `hugo ser
 ### Publishing to GitHub 
 I will discuss two ways of publishing to github, either directly to username.github.io, or to username.github.io/repository_name. If you want to host yours on a custom domain, follow the second approach, and then to refer to [this tutorial](https://theplaybook.dev/docs/deploy-hugo-to-github-pages/#link-custom-domain-to-github-pages). 
 
-#### *username*.github.io
+### *username*.github.io
 I don't have my personal website hosted on my main page, so I decided to host this sketchbook directly at desaiwang.github.io. 
 
 To do this, first create a new public repository on Github named *username*.github.io, where *username* is your github username.
