@@ -2,6 +2,7 @@
 title: "Desai's Doodles: Introduction"
 date: 2024-01-02T18:33:08-05:00
 draft: false
+showtoc: false
 ---
 ### Art + Computation
 What does it mean to combine art and computation? I decided to study architecture because I was interested in the intersection of art and sciences, but after 5 years of architecture school, I still don't know how to combine my two interests effectively.
