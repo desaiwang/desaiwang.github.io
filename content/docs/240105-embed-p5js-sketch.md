@@ -15,11 +15,10 @@ I first attempted putting p5.js code directly inside a `<script>` tag inside my 
 
 So, instead of adding code, I just saved my script to the p5.js [online editor](https://editor.p5js.org/) and embedded it with an `iframe` element. For example, for my first sketch I followed the Coding Train's [tutorial](https://www.youtube.com/watch?v=1h6vZl-OuB0) and created a starfield simulation. (Albeit a great intro, I think the online editor is actually just as easy to use as Visual Studio Code!) 
 
-<br>
 
 {{< sketch1 >}}
 
-<br>
+
 To display it here, I created `layouts/shortcodes/sketch1.html`. Inside, it just includes an iframe element with the src as the share link from the online editor:
 
 ```
@@ -27,7 +26,7 @@ To display it here, I created `layouts/shortcodes/sketch1.html`. Inside, it just
   src="https://editor.p5js.org/desaiwang/full/9TGN5zpUO"></iframe>
 ```
 
-And in my .md file for this post, I referenced it as ```{.{.<.sketch1.>}.}.``` (remove all the periods, I couldn't display it without hugo parsing it otherwise.)
+And in my .md file for this post, I referenced it as ```{.{.<.sketch1.>}.}.``` (remove all the periods, I couldn't display it without hugo parsing it otherwise).
 Super easy integration! However, I noticed that the editor function breaks the element. And I don't know how to center it. I have these on my to-investigate list.
 
 ### Genuary 05

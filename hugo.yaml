@@ -21,6 +21,8 @@ params:
   socialIcons:
     - name: Github
       url: "https://github.com/desaiwang"
+    - name: X
+      url: "https://twitter.com/desai_wang"
     - name: LinkedIn
       url: "https://www.linkedin.com/in/desaiwang/"
     - name: Portfolio
