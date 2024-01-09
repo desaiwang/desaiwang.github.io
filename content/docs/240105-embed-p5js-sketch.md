@@ -1,8 +1,8 @@
 ---
 title: "Embedding P5.js Sketch and Genuary Challenge"
-date: 2024-01-04T12:12:11-05:00
+date: 2024-01-05T12:12:11-05:00
 draft: false
-tags: ["hugo", "tutorial-web", "p5js", "genuary"]
+tags: ["hugo", "tutorial", "p5js", "genuary"]
 showtoc: true
 ---
 
@@ -27,7 +27,7 @@ To display it here, I created `layouts/shortcodes/sketch1.html`. Inside, it just
 ```
 
 And in my .md file for this post, I referenced it as ```{.{.<.sketch1.>}.}.``` (remove all the periods, I couldn't display it without hugo parsing it otherwise).
-Super easy integration! However, I noticed that the editor function breaks the element. And I don't know how to center it. I have these on my to-investigate list.
+Super easy integration! However, I noticed that the iframe breaks if I try to interact with the menu bar at the top. And I don't know how to center it. I have these on my to-investigate list.
 
 ### Genuary 05
 I discovered the [Genuary](https://genuary.art/prompts) challenge today, and decided to join in. Today's prompt was on [Vera Molnar](https://www.sothebys.com/en/articles/vera-molnar-the-grande-dame-of-generative-art), and I found her work extremely inspiring. Here is my attempt to capture the spirit of her 1969 work titled *Interruptions*. 
