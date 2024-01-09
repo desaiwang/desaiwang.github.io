@@ -2,7 +2,7 @@
 title: "P5.js Basics"
 date: 2024-01-08T12:12:11-05:00
 draft: false
-tags: ["hugo", "tutorial", "p5js", "genuary"]
+tags: ["tutorial", "p5js", "genuary"]
 showtoc: true
 ---
 
