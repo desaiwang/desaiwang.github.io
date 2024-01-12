@@ -1,0 +1,113 @@
+<script defer language="javascript" type="text/javascript">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+<script src="https://unpkg.com/honeycomb-grid@4.1.5/dist/honeycomb-grid.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.2.0/svg.min.js"></script>
+<script>
+  // 1. Create a hex class:
+  const Tile = Honeycomb.defineHex({ dimensions: { xRadius: 20, yRadius: 20 } })
+
+
+  // 2. Create a grid by passing the class and a "traverser" for a rectangular-shaped grid:
+  const grid = new Honeycomb.Grid(Tile, Honeycomb.rectangle({ width: 13, height: 15 }))
+  console.log(grid);
+
+  let rings = [];
+  let x = 2;
+  let y = 7;
+  let pframeCount = 0;
+
+  for (let i = 1; i < 10; i++) {
+    let radiusRing = Honeycomb.ring({ center: [x, y], radius: i });
+    rings.push(grid.traverse(radiusRing));
+  }
+
+  const colorsBlue = ['#dbffee',
+    '#c0f0e3',
+    '#a4e1da',
+    '#88d2d3',
+    '#6cc3ce',
+    '#50b3c9',
+    '#34a2c5',
+    '#1991bf',
+    '#0580b8',
+    '#126eaf']
+
+  const colorsRed = ['#dbffee',
+    '#d1f6d8',
+    '#ceebbf',
+    '#d1dfa6',
+    '#d8d18e',
+    '#e1c27a',
+    '#ebb06c',
+    '#f49d66',
+    '#fb8868',
+    '#ff7272'
+  ]
+  function setup() {
+    // for full size render window
+    // createCanvas(windowWidth, windowHeight);
+    createCanvas(400, 400);
+    frameRate(10);
+
+  }
+
+  function draw() {
+    background(0);
+    fill(255);
+    stroke(2);
+
+    k = 1;
+    for (let ring of rings) {
+      fill(0);
+      for (let shape of ring) {
+
+        beginShape();
+        shape.corners.forEach(d => {
+          vertex(d.x, d.y);
+        });
+        endShape(CLOSE);
+      }
+      k++;
+    }
+
+
+
+    let j = pframeCount % 10;
+    let radiusRing = Honeycomb.ring({ center: [x, y], radius: j });
+    let ring = grid.traverse(radiusRing);
+
+    fill(colorsBlue[j]);
+    for (let shape of ring) {
+
+      beginShape();
+      shape.corners.forEach(d => {
+        vertex(d.x, d.y);
+      });
+      endShape(CLOSE);
+    }
+
+
+
+    fill(colorsBlue[0]);
+
+    let center = grid.getHex([x, y]);
+    beginShape();
+    center.corners.forEach(d => {
+      vertex(d.x, d.y);
+    });
+    endShape(CLOSE);
+
+    pframeCount++;
+  }
+
+  function keyPressed() {
+    if (key == 'd') x++;
+    if (key == 'a') x--;
+    if (key == 'w') y--;
+    if (key == 's') y++;
+
+    pframeCount = 0;
+  }
+
+</script>
