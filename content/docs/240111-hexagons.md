@@ -26,7 +26,7 @@ Performance is not an issue when creating a simple sketch, but I used a CDN beca
 ### hexagonal fireworks
 {{<240111-Genuary10-hexagons>}}
 
-Code [here](https://editor.p5js.org/desaiwang/sketches/jPGhfqVlE).
+Use wasd keys to move. Code [here](https://editor.p5js.org/desaiwang/sketches/jPGhfqVlE).
 
 I wanted to create a firework effect that radiates outwards from the central hexagon. I followed the Honeycomb documentation on ring traversals and colored the ring at a certain radius (a mod function on frameCount, so the radius would increase then go back to 0). Then I made the center coordinates into variables, and registered some key input events that allowed the center to move. Lastly, I wanted to capture the delay of fireworks--that is, the old centers should still radiate outwards, but at a diminished opacity. I created an array which stores the most recent 5 center locations. Lastly, I made a mapping from the position of a center in the center list to opacity, and colored its ring accordingly.
 
