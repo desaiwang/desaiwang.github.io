@@ -30,7 +30,7 @@ params:
 
   assets:
     disableHLJS: true
-    favicon: "/assets/favicon2.ico"
+    favicon: "/assets/favicon.ico"
 
   # ShowReadingTime: true
   ShowShareButtons: true
