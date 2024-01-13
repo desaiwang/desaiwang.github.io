@@ -28,6 +28,10 @@ params:
     - name: Portfolio
       url: "https://desaiwang.com"
 
+  assets:
+    disableHLJS: true
+    favicon: "/assets/favicon.ico"
+
   # ShowReadingTime: true
   ShowShareButtons: true
   ShareButtons: ["linkedin", "x", "reddit"] # customize which share buttons to be enabled on page
@@ -35,6 +39,8 @@ params:
   #table of content at top of each page
   ShowToc: true
   defaultTheme: auto
+
+
 
 menu:
   main:
