@@ -21,12 +21,17 @@
       img = loadImage('/images/240116-10000/FrickMadison_Square.jpeg');
     }
 
-    const { Engine, World, Bodies, Composite } = Matter;
+    const { Engine, World, Bodies, Composite, Composites } = Matter;
 
     let engine;
     let world;
     let boxes = [];
     let ground;
+
+    let options = {
+      friction: 0.3,
+      restitution: 0.6
+    }
 
     function setup() {
       createCanvas(150, 200);
@@ -37,46 +42,77 @@
       print(img.width + ' • ' + img.height);
       print(width, height);
 
+      // create an engine
+      engine = Engine.create();
+      world = engine.world;
+      // Engine.run is deprecated
+      ground = new Boundary(width / 2, height, width, 50);
+      Composite.add(world, ground);
+
+
+
+
       img.loadPixels();
 
+      var stack = Composites.stack(20, 20, 100, 100, 0, 0, function (x, y) {
 
-      for (let i = 0; i < 100; i++) {
-        print(i);
-        for (let j = 0; j < 100; j++) {
-
-          push();
-          //translate to accomodate for shift
-          translate(25, 10);
-
-          // get current color
-          var imgX = round(map(i, 0, width, 0, img.width));
-          var imgY = round(map(j, 0, height, 0, img.height));
-          // print(imgX, imgY);
+        var imgX = round(map(x, 0, width, 0, img.width));
+        var imgY = round(map(y, 0, height, 0, img.height));
+        // print(imgX, imgY);
 
 
-          // print(color(img.get(imgX, imgY)));
+        // print(color(img.get(imgX, imgY)));
+        return Bodies.rectangle(this.x, this.y, this.w, this.h, options);
+      })
 
-          var c = color(img.get(imgX, imgY));
-          var greyscale = round(red(c) * 0.222 + green(c) * 0.707 + blue(c) * 0.071);
+      // for (let i = 0; i < 100; i++) {
+      //   for (let j = 0; j < 10; j++) {
+
+      //     push();
+      //     //translate to accomodate for shift
+      //     translate(25, 10);
+
+      //     // get current color
+      //     var imgX = round(map(i, 0, width, 0, img.width));
+      //     var imgY = round(map(j, 0, height, 0, img.height));
+      //     // print(imgX, imgY);
+
+
+      //     // print(color(img.get(imgX, imgY)));
+
+      //     var c = color(img.get(imgX, imgY));
+      //     var greyscale = round(red(c) * 0.222 + green(c) * 0.707 + blue(c) * 0.071);
 
 
 
-          if (blackAndWhite) {
-            fill(greyscale);
-          } else {
-            fill(c);
-          }
+      //     if (blackAndWhite) {
+      //       fill(greyscale);
+      //     } else {
+      //       fill(c);
+      //     }
 
-          rect(i, j, 1, 1);
+      //     boxes.push(new Box(i, j, 1, 1, c));
+      //     // rect(i, j, 1, 1);
 
-          pop();
-        }
-      }
+      //     pop();
+      //   }
+      // }
 
       // image(img, 0, 0)
     }
 
+
+    function mousePressed() {
+      boxes.push(new Box(mouseX, mouseY, random(10, 40), random(10, 40), color(200)));
+    }
+
     function draw() {
+      background(51);
+      Engine.update(engine);
+      for (let i = 0; i < boxes.length; i++) {
+        boxes[i].show();
+      }
+      ground.show();
     }
 
     function keyReleased() {
@@ -140,7 +176,6 @@
         translate(pos.x, pos.y);
         rotate(angle);
         rectMode(CENTER);
-        strokeWeight(1);
         noStroke();
         fill(this.c);
         rect(0, 0, this.w, this.h);
