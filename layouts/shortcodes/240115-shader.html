@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<style>
+  * {
+    margin: 0
+  }
+
+  #V {
+    display: block
+  }
+</style>
+
+<canvas id=V>
+  <script>
+    a = V.width = innerWidth;
+    a /= V.height = innerHeight + .01;
+    with (V.getContext`webgl2`) {
+      p = createProgram(t = 35633);
+      [
+        `out O{X x=X(-1);x[gl_VertexID]=3.;gl_Position=X(u=x.xy,0,1);u.x*=${a};}`, `uniform F t;out X c;in O{c=X(.8*fract(u.y*(sin(t)+1.)*t),.7*fract(u.x*sin(t)),0.5*fract(sin(t) +1.), 0.3);}`
+      ].map(x => attachShader(p, s = createShader(t--), shaderSource(s, `#version 300 es\n~V vec2~X vec4~F float~O V u;void main()\nprecision highp F;`.split`~`.join`\n#define ` + x), compileShader(s)));
+      linkProgram(p);
+      useProgram(p);
+      k = _ => requestAnimationFrame(k, uniform1f(getUniformLocation(p, 't'), performance.now() / 5e2), drawArrays(5, 0, 3));
+      k()
+    }
+  </script>

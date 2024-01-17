@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<style>
+  * {
+    margin: 0
+  }
+
+  #V {
+    display: block
+  }
+</style><canvas id=V>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+  <script>
+
+    var blackAndWhite = false;
+
+    var img;
+
+    function preload() {
+      img = loadImage('/images/240116-10000/FrickMadison_Square.jpeg');
+    }
+
+    const { Engine, World, Bodies, Composite } = Matter;
+
+    let engine;
+    let world;
+    let boxes = [];
+    let ground;
+
+    function setup() {
+      createCanvas(150, 200);
+
+      background(0);
+      noStroke();
+
+      print(img.width + ' • ' + img.height);
+      print(width, height);
+
+      img.loadPixels();
+
+
+      for (let i = 0; i < 100; i++) {
+        print(i);
+        for (let j = 0; j < 100; j++) {
+
+          push();
+          //translate to accomodate for shift
+          translate(25, 10);
+
+          // get current color
+          var imgX = round(map(i, 0, width, 0, img.width));
+          var imgY = round(map(j, 0, height, 0, img.height));
+          // print(imgX, imgY);
+
+
+          // print(color(img.get(imgX, imgY)));
+
+          var c = color(img.get(imgX, imgY));
+          var greyscale = round(red(c) * 0.222 + green(c) * 0.707 + blue(c) * 0.071);
+
+
+
+          if (blackAndWhite) {
+            fill(greyscale);
+          } else {
+            fill(c);
+          }
+
+          rect(i, j, 1, 1);
+
+          pop();
+        }
+      }
+
+      // image(img, 0, 0)
+    }
+
+    function draw() {
+    }
+
+    function keyReleased() {
+      if (key == 's' || key == 'S') saveCanvas(gd.timestamp(), 'png');
+      // change color style
+
+      if (key == '2') blackAndWhite = !blackAndWhite;
+    }
+
+
+    class Boundary {
+      constructor(x, y, w, h) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        let options = {
+          friction: 0.3,
+          restitution: 0.6,
+          isStatic: true
+        }
+        this.body = Bodies.rectangle(this.x, this.y, this.w, this.h, options);
+        Composite.add(world, this.body);
+      }
+
+      show() {
+        let pos = this.body.position;
+        let angle = this.body.angle;
+        push();
+        translate(pos.x, pos.y);
+        rotate(angle);
+        rectMode(CENTER);
+        strokeWeight(1);
+        noStroke();
+        fill(0);
+        rect(0, 0, this.w, this.h);
+        pop();
+      }
+    }
+
+    class Box {
+      constructor(x, y, w, h, c) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.c = c;
+        let options = {
+          friction: 0.3,
+          restitution: 0.6
+        }
+        this.body = Bodies.rectangle(this.x, this.y, this.w, this.h, options);
+
+        Composite.add(world, this.body);
+      }
+
+      show() {
+        let pos = this.body.position;
+        let angle = this.body.angle;
+        push();
+        translate(pos.x, pos.y);
+        rotate(angle);
+        rectMode(CENTER);
+        strokeWeight(1);
+        noStroke();
+        fill(this.c);
+        rect(0, 0, this.w, this.h);
+        pop();
+      }
+    }
+
+  </script>
